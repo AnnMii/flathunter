@@ -11,10 +11,11 @@ class CrawlImmobilienscout:
 
     def get_results(self, search_url):
         # convert to paged URL
-        if '/P-' in search_url:
-            search_url = re.sub(r"/Suche/(.+?)/P-\d+", "/Suche/\1/P-%i", search_url)
-        else:
-            search_url = re.sub(r"/Suche/(.+?)/", r"/Suche/\1/P-%i/", search_url)
+        # if '/P-' in search_url:
+        #     search_url = re.sub(r"/Suche/(.+?)/P-\d+", "/Suche/\1/P-%i", search_url)
+        # else:
+        #     search_url = re.sub(r"/Suche/(.+?)/", r"/Suche/\1/P-%i/", search_url)
+        search_url = search_url + "%i"
         self.__log__.debug("Got search URL %s" % search_url)
 
         # load first page to get number of entries
@@ -29,11 +30,11 @@ class CrawlImmobilienscout:
         entries = self.extract_data(soup)
 
         # iterate over all remaining pages
-        while len(entries) < no_of_results:
-            self.__log__.debug('Next Page')
-            page_no += 1
-            soup = self.get_page(search_url, page_no)
-            entries.extend(self.extract_data(soup))
+        # while len(entries) < no_of_results:
+        #     page_no += 1
+        #     self.__log__.debug('Next Page %s' % str(page_no))
+        #     soup = self.get_page(search_url, page_no)
+        #     entries.extend(self.extract_data(soup))
 
         return entries
 

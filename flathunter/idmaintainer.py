@@ -19,16 +19,19 @@ class IdMaintainer:
         try:
             self.CON = lite.connect(db_name)
             cur = self.CON.cursor()
-            cur.execute('CREATE TABLE IF NOT EXISTS processed (ID INTEGER)')
+            cur.execute(
+                'CREATE TABLE IF NOT EXISTS processed (ID INTEGER, TITLE TEXT, ROOMS TEXT, SIZE TEXT, PRICE TEXT, URL TEXT)')
 
         except lite.Error as e:
             self.__log__.error("Error %s:" % e.args[0])
             sys.exit(1)
 
-    def add(self, expose_id):
-        self.__log__.debug('add(' + str(expose_id) + ')')
+    def add(self, expose):
+        self.__log__.debug('add(' + str(expose) + ')')
         cur = self.CON.cursor()
-        cur.execute('INSERT INTO processed VALUES(' + str(expose_id) + ')')
+        # cur.execute('INSERT INTO processed(ID, TITLE, ROOMS, SIZE, PRICE, URL) VALUES(' + str(expose['id']) + ', "' + str(expose['rooms']) + '", "' + str(expose['size']) + '", "' + str(expose['price']) + '", ' + str(expose['url']) + ')')
+        sql = '''INSERT INTO processed(ID, TITLE, ROOMS, SIZE, PRICE, URL) VALUES(?, ?, ?, ?, ?, ?)'''
+        cur.execute(sql, [str(expose['id']), str(expose['title']), str(expose['rooms']), str(expose['size']), str(expose['price']), str(expose['url'])])
         self.CON.commit()
 
     def get(self):

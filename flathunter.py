@@ -27,11 +27,12 @@ if os.name == 'posix':
              '%(levelname)-8s' + coff + ']: %(message)s'
 else:
     # else without color
-    format = '[%(asctime)s|%(filename)-18s|%(levelname)-8s]: %(message)s',
-logging.basicConfig(
-    format=format,
-    datefmt='%Y/%m/%d %H:%M:%S',
-    level=logging.INFO)
+    # format = '[%(asctime)s|%(filename)-18s|%(levelname)-8s]: %(message)s',,
+    logging.basicConfig(
+        # format=format,
+        # datefmt='%Y/%m/%d %H:%M:%S',
+        level=logging.DEBUG)
+    pass
 __log__ = logging.getLogger(__name__)
 
 
